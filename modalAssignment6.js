@@ -15,34 +15,54 @@ export default function PracticeModal({ closeModal, OnDataPassed }) {
   };
   const [userData, setUserData] = useState({
     name: '',
-    medCategories: [{ type: '', med: [{ name: '' }] }],
+    medCategories: [],
   });
-
+  const [count, setCount] = useState(0);
   const addMedicineType = () => {
-    let med_categories = userData.medCategories;
+    let med_categories = [...userData.medCategories];
     console.log('medCategories', med_categories);
-    med_categories.push({ type: '', med: [{ name: '' }] });
-    setUserData(Object.assign({}, userData, { medCategories: med_categories }));
+    med_categories.push({ type: '', med: []});
     console.log('ABCDEFGH', userData);
+
+    // setUserData(Object.assign({}, userData, { medCategories: med_categories }));
+    setUserData({ ...userData,  medCategories: med_categories });
+
+
+    console.log('ABCDEFGH22222222', userData);
   };
 
+//   const addMedicine = (index) => {
+//     // console.log('index', index);
+//     let medicine = [...userData.medCategories[index].med]
+
+//     medicine.push({ name: '' });
+//     const hehe = userData.medCategories
+//     obj1=Object.assign([],hehe,med=medicine)
+
+//     // console.log(userData,'above',medicine)
+// const data= {...userData,medCategories:[{...userData.medCategories[index],med:medicine}]}
+
+
+// console.log('abc',data,'jsadksahjkß')
+//     setUserData(data)
+//     // setUserData(Object.assign({}, userData, { medCategories: Object.assign([],hehe,med=medicine) }));
+
+//     // console.log('Add Medicine', Object.assign({}, userData, { medCategories: Object.assign([],hehe,med=medicine) }))
+//   }
+
   const addMedicine = (index) => {
-    let medicine = userData.medCategories[0].med
-    console.log("osduiosudiosdufois",medicine)
-    medicine.push({ name: '' })
-    console.log("AFTER",medicine)
-    // setUserData(Object.assign({}, userData, {medCategories : Object.assign([],medCategories,{})  }))
-    // console.log("Add Medicine",userData)
+    setUserData((prevData) => {
+      const newMedicine = { name: '' };
 
-
-    // console.log("VBV",index)
-
-    
-
-    obj3 = Object.assign({}, pharmacyData, {
-      medCategories: Object.assign([], all_hobbies, {
-        [index]: { hobby: text },
-      }),
+      return {
+        ...prevData,
+        medCategories: prevData.medCategories.map((category, i) => {
+          if (i === index) {
+            category.med.push(newMedicine); // Use push to add the new medicine
+          }
+          return category;
+        }),
+      };
     });
   };
 
@@ -56,43 +76,38 @@ export default function PracticeModal({ closeModal, OnDataPassed }) {
   };
 
   // const renderMedicine = () => {
-  //   console.log('UINED', userData.medCategories.med);
-  //   return userData.medCategories.med.map((hobby, index) =>
-  //     console.log('MEDCAT', hobby, 'MEDCAT', index)
-  //       <View
-  //         key={index}
-  //         style={{
-  //           alignSelf: 'flex-end',
-  //           alignItems: 'flex-end',
-  //           flexDirection: 'row',
-  //           justifyContent: 'space-between',
-  //         }}>
-  //         <TextInput
-  //           style={styles.inputStyle2}
-  //           placeholder="Medicine"
-  //           value={hobby.title}
-  //           onChangeText={(text) => handleHobbyInput(text, index)}
-  //         />
-  //         {index === userData.title.length - 1 && (
-  //           <TouchableOpacity onPress={addNewInput}>
+  //     console.log('UFINED', userData.medCategories);
+  //     return userData.medCategories.map((medCategories, index) => (
+  //       // console.log('MM', medCategories, 'MM', index),
+  //       // console.log('LENGTH', userData.medCategories.length)
+  //       <View>
+  //         <View
+  //           key={index}
+  //           style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+  //           <TextInput
+  //             style={styles.inputStyle2}
+  //             placeholder="Medicine"
+  //             value={medCategories.type}
+  //             // onChangeText={(text) => handleHobbyInput(text, index)}
+  //           />
+  //           {index === userData.medCategories.length - 1 && (
+  //              <TouchableOpacity >
   //             <Icon
   //               style={styles.Icon}
   //               name="pluscircle"
-  //               size={30}
+  //               size={35}
   //               color="black"
   //             />
   //           </TouchableOpacity>
-  //         )}
+  //           )}
+  //         </View>
   //       </View>
   //     ));
-  //   );
-  // };
+  //   };
 
   const renderInput = () => {
     console.log('UNDEFINED', userData.medCategories);
-    return userData.medCategories.map((medCategories, index) => (
-      // console.log('MM', medCategories, 'MM', index),
-      // console.log('LENGTH', userData.medCategories.length)
+    return  userData.medCategories.map((medCategories, index) => (
       <View>
         <View
           key={index}
@@ -105,7 +120,7 @@ export default function PracticeModal({ closeModal, OnDataPassed }) {
           />
           {index === userData.medCategories.length - 1 && (
             <TouchableOpacity
-              onPress={addMedicine}
+              onPress={() => addMedicine(index)}
               style={{
                 borderWidth: 1,
                 marginVertical: 7,
@@ -115,6 +130,28 @@ export default function PracticeModal({ closeModal, OnDataPassed }) {
             </TouchableOpacity>
           )}
         </View>
+        {medCategories.med.map((data, i) => (
+          <View
+            key={index}
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <TextInput
+              style={styles.inputStyle2}
+              placeholder="Medicine Name"
+              value={data.name}
+              // onChangeText={(text) => handleHobbyInput(text, index)}
+            />
+            {index === userData.medCategories.length - 1 && (
+              <TouchableOpacity onPress={() => addMedicine(index)}>
+                <Icon
+                  style={styles.Icon}
+                  name="pluscircle"
+                  size={35}
+                  color="black"
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+        ))}
       </View>
     ));
   };
@@ -188,3 +225,4 @@ const styles = StyleSheet.create({
     marginVertical: 7,
   },
 });
+
