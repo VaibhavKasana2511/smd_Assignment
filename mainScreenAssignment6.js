@@ -10,6 +10,7 @@ import {
   Modal,
 } from 'react-native';
 // import PracticeModal from './PracticeModal';
+import PracticeModal from './practiceModal'
 
 const Practice2D = () => {
   const [DATA, SetDATA] = useState([
@@ -44,6 +45,7 @@ const Practice2D = () => {
       ],
     },
   ]);
+
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -115,7 +117,9 @@ const Practice2D = () => {
         animationType="slide"
         transparent={false}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}></Modal>
+        onRequestClose={() => setModalVisible(false)}>
+        <PracticeModal statePass={handleAddUser} closeModal={closeModal}/>
+        </Modal>
     </SafeAreaView>
   );
 };
@@ -130,14 +134,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginVertical: 10,
-    shadowColor: '#000',
+    shadowColor:'red',
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width:1,
+      height: 3,
     },
     shadowOpacity: 0.4,
-    shadowRadius: 4,
-    elevation: 5,
+    // shadowRadius: 4,
+    elevation: 1,
   },
   title: {
     fontSize: 15,
